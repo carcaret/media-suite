@@ -3,7 +3,7 @@
 export PGID=$(id -u)
 export PUID=$(id -g)
 
-while getopts u:d:p:f: option
+while getopts d:s:m: option
 do
 	case "${option}"
 	in
