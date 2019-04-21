@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3'
 
 services:
   jackett:
@@ -12,24 +12,23 @@ services:
     image: linuxserver/sonarr:latest
     volumes:
       - ./sonarr:/config
-      - ./downloads:/downloads/complete
-      - ./series:/tv
+      - ${DOWNLOADS_FOLDER}:/downloads/complete
+      - ${SERIES_FOLDER}:/tv
     ports:
       - '8989:8989'
     environment:
-      - PGID=20
-      - PUID=501
+      - PGID=${PGID}
+      - PUID=${PUID}
   transmission:
     image: linuxserver/transmission:latest
     volumes:
       - ./transmission:/config
-      - ./downloads:/downloads/complete
-      - ./watch:/watch
+      - ${DOWNLOADS_FOLDER}:/downloads/complete
     ports:
       - '9091:9091'
       - '51413:51413'
       - '51413:51413/udp'
     environment:
-      - PGID=20
-      - PUID=501
+      - PGID=${PGID}
+      - PUID=${PUID}
       - TZ='Europe/Madrid'
