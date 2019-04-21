@@ -19,6 +19,17 @@ services:
     environment:
       - PGID=${PGID}
       - PUID=${PUID}
+  radarr:
+    image: linuxserver/radarr:latest
+    volumes:
+      - ./radarr:/config
+      - ${DOWNLOADS_FOLDER}:/downloads/complete
+      - ${MOVIES_FOLDER}:/movies
+    ports:
+      - '7878:7878'
+    environment:
+      - PGID=${PGID}
+      - PUID=${PUID}
   transmission:
     image: linuxserver/transmission:latest
     volumes:
