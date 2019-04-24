@@ -50,3 +50,9 @@ services:
     ports:
       - '80:80'
       - '443:443'
+networks:
+  agent:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.25.0.0/24
