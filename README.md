@@ -10,10 +10,12 @@ You should use the file `deploy.sh` to deploy the whole suite. The following opt
 * `-d`: folder where downloaded files will be stored. Defaults to `./downloads`
 * `-s`: TV Shows library folder. Defaults to `./series`
 * `-m`: Movies library folder. Defaults to `./movies`
+* `-u`: Sets username for basic auth. Defaults to `admin`
+* `-p`: Sets password for basic auth. Defaults to `admin`
 
 ### Command
 ```bash
-$ ./deploy.sh -d /path/to/downloads -s /path/to/series -m /path/to/movies
+$ ./deploy.sh -d /path/to/downloads -s /path/to/series -m /path/to/movies -u user -p password
 ```
 
 ## Access services
