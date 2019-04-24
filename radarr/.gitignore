@@ -1,5 +1,7 @@
 MediaCover
 logs
 logs.*
+nzbdrone.db-shm
+nzbdrone.db-wal
 nzbdrone.pid
 xdg
