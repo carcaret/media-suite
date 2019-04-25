@@ -3,8 +3,6 @@ version: '3'
 services:
   jackett:
     image: linuxserver/jackett:latest
-    networks:
-      - agent
     volumes:
       - ./jackett:/config
     ports:
@@ -12,8 +10,6 @@ services:
       - '9118:9118'
   sonarr:
     image: linuxserver/sonarr:latest
-    networks:
-      - agent
     volumes:
       - ./sonarr:/config
       - ${DOWNLOADS_FOLDER}:/downloads/complete
@@ -25,8 +21,6 @@ services:
       - PUID=${PUID}
   radarr:
     image: linuxserver/radarr:latest
-    networks:
-      - agent
     volumes:
       - ./radarr:/config
       - ${DOWNLOADS_FOLDER}:/downloads/complete
@@ -38,8 +32,6 @@ services:
       - PUID=${PUID}
   transmission:
     image: linuxserver/transmission:latest
-    networks:
-      - agent
     volumes:
       - ./transmission:/config
       - ${DOWNLOADS_FOLDER}:/downloads/complete
@@ -51,18 +43,18 @@ services:
       - PGID=${PGID}
       - PUID=${PUID}
       - TZ='Europe/Madrid'
+  router:
+    image: nginx:latest
+    volumes:
+      - ./router:/etc/router
+    ports:
+      - '8000:80'
+      - '44300:443'
   nginx:
     image: nginx:latest
-    networks:
-      - agent
+    network_mode: 'host'
     volumes:
       - ./nginx:/etc/nginx
     ports:
       - '80:80'
       - '443:443'
-networks:
-  agent:
-    driver: bridge
-    ipam:
-      config:
-      - subnet: 172.25.0.0/24
