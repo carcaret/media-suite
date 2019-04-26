@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+
   jackett:
     image: linuxserver/jackett:latest
     volumes:
@@ -8,53 +9,60 @@ services:
     ports:
       - '9117:9117'
       - '9118:9118'
+
   sonarr:
     image: linuxserver/sonarr:latest
     volumes:
       - ./sonarr:/config
-      - ${DOWNLOADS_FOLDER}:/downloads/complete
-      - ${SERIES_FOLDER}:/tv
+      - ${DOWNLOADS_FOLDER:-./downloads/}:/downloads/complete
+      - ${SERIES_FOLDER:-./series}:/tv
     ports:
       - '8989:8989'
     environment:
-      - PGID=${PGID}
-      - PUID=${PUID}
+      - PGID=${PGID:-1000}
+      - PUID=${PUID:-1000}
+
   radarr:
     image: linuxserver/radarr:latest
     volumes:
       - ./radarr:/config
-      - ${DOWNLOADS_FOLDER}:/downloads/complete
-      - ${MOVIES_FOLDER}:/movies
+      - ${DOWNLOADS_FOLDER:-./downloads/}:/downloads/complete
+      - ${MOVIES_FOLDER:-./movies}:/movies
     ports:
       - '7878:7878'
     environment:
-      - PGID=${PGID}
-      - PUID=${PUID}
+      - PGID=${PGID:-1000}
+      - PUID=${PUID:-1000}
+
   transmission:
     image: linuxserver/transmission:latest
     volumes:
       - ./transmission:/config
-      - ${DOWNLOADS_FOLDER}:/downloads/complete
+      - ${DOWNLOADS_FOLDER:-./downloads/}:/downloads/complete
     ports:
       - '9091:9091'
       - '51413:51413'
       - '51413:51413/udp'
     environment:
-      - PGID=${PGID}
-      - PUID=${PUID}
+      - PGID=${PGID:-1000}
+      - PUID=${PUID:-1000}
       - TZ='Europe/Madrid'
+
   router:
     image: nginx:latest
     volumes:
-      - ./router:/etc/router
+      - ./router:/etc/nginx
     ports:
       - '8000:80'
       - '44300:443'
-  nginx:
-    image: nginx:latest
+
+  auth:
+    build:
+      context: auth/
+      dockerfile: Dockerfile
     network_mode: 'host'
     volumes:
-      - ./nginx:/etc/nginx
+      - ./auth:/etc/nginx
     ports:
       - '80:80'
       - '443:443'
