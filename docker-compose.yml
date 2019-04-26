@@ -7,7 +7,6 @@ services:
     volumes:
       - ./jackett:/config
     ports:
-      - '9117:9117'
       - '9118:9118'
 
   sonarr:
@@ -16,8 +15,6 @@ services:
       - ./sonarr:/config
       - ${DOWNLOADS_FOLDER:-./downloads/}:/downloads/complete
       - ${SERIES_FOLDER:-./series}:/tv
-    ports:
-      - '8989:8989'
     environment:
       - PGID=${PGID:-1000}
       - PUID=${PUID:-1000}
@@ -28,8 +25,6 @@ services:
       - ./radarr:/config
       - ${DOWNLOADS_FOLDER:-./downloads/}:/downloads/complete
       - ${MOVIES_FOLDER:-./movies}:/movies
-    ports:
-      - '7878:7878'
     environment:
       - PGID=${PGID:-1000}
       - PUID=${PUID:-1000}
@@ -40,7 +35,6 @@ services:
       - ./transmission:/config
       - ${DOWNLOADS_FOLDER:-./downloads/}:/downloads/complete
     ports:
-      - '9091:9091'
       - '51413:51413'
       - '51413:51413/udp'
     environment:
@@ -53,8 +47,7 @@ services:
     volumes:
       - ./router:/etc/nginx
     ports:
-      - '8000:80'
-      - '44300:443'
+      - '127.0.0.1:8000:80'
 
   auth:
     build:
